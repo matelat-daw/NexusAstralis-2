@@ -15,6 +15,7 @@ export class AppComponent {
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
+  token: string | null = null;
 
   loginFrom = new FormGroup({
     email: new FormControl<string>(''),
@@ -30,7 +31,7 @@ export class AppComponent {
     this.http.post(this.url + 'api/Account/Login', loginData, { responseType: 'text' })
       .subscribe({
         next: (value) => {
-          console.log('Login successful', value);
+          console.log('Login successful, Token: ', value);
           alert('Login successful');
         },
         error: (error) => {
