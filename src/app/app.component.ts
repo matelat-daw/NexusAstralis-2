@@ -72,46 +72,44 @@ export class AppComponent {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this.registerForm.patchValue({ image: file });
-      this.registerForm.get('image')?.updateValueAndValidity(); // Asegúrate de que el valor sea válido.
-      console.log('Archivo seleccionado:', file); // Agrega un log para verificar el archivo
+      console.log('Selected file:', file.name, 'Size:', file.size);
     }
   }
 
   onRegisterFormSubmit() {
-    const userData = {
-      Name: this.registerForm.value.name,
-      Surname1: this.registerForm.value.surname1,
-      Surname2: this.registerForm.value.surname2,
-      Bday: this.registerForm.value.bday,
-      PhoneNumber: this.registerForm.value.phoneNumber,
-      Email: this.registerForm.value.email,
-      Password: this.registerForm.value.pass,
-      Password2: this.registerForm.value.pass2
-    };
+    // const userData = {
+    //   Name: this.registerForm.value.name,
+    //   Surname1: this.registerForm.value.surname1,
+    //   Surname2: this.registerForm.value.surname2,
+    //   Bday: this.registerForm.value.bday,
+    //   PhoneNumber: this.registerForm.value.phoneNumber,
+    //   Email: this.registerForm.value.email,
+    //   Password: this.registerForm.value.pass,
+    //   Password2: this.registerForm.value.pass2
+    // };
 
-    if (userData.Password !== userData.Password2) {
+    if (this.registerForm.value.pass !== this.registerForm.value.pass2) {
       alert('Las contraseñas no coinciden');
       return;
     }
     
     // Crear un objeto FormData para enviar los datos junto con la imagen
   const formData = new FormData();
-  formData.append('Name', userData.Name || '');
-  formData.append('Surname1', userData.Surname1 || '');
-  formData.append('Surname2', userData.Surname2 || '');
-  formData.append('Bday', userData.Bday ? userData.Bday.toString() : '');
-  formData.append('PhoneNumber', userData.PhoneNumber || '');
-  formData.append('Email', userData.Email || '');
-  formData.append('Password', userData.Password || '');
-  formData.append('Password2', userData.Password2 || '');
-  // formData.append('ProfileImageFile', this.file);
+  // Add all form fields to FormData
+    if (this.registerForm.value.name) formData.append('Name', this.registerForm.value.name);
+    if (this.registerForm.value.surname1) formData.append('Surname1', this.registerForm.value.surname1);
+    if (this.registerForm.value.surname2) formData.append('Surname2', this.registerForm.value.surname2 || '');
+    if (this.registerForm.value.bday) formData.append('Bday', this.registerForm.value.bday.toString());
+    if (this.registerForm.value.phoneNumber) formData.append('PhoneNumber', this.registerForm.value.phoneNumber);
+    if (this.registerForm.value.email) formData.append('Email', this.registerForm.value.email);
+    if (this.registerForm.value.pass) formData.append('Password', this.registerForm.value.pass);
+    if (this.registerForm.value.pass2) formData.append('Password2', this.registerForm.value.pass2);
 
-  // Agregar la imagen al FormData si existe
-  const imageInput = this.registerForm.value.image as File | null;
-  if (imageInput) {
-    formData.append('ProfileImageFile', imageInput);
-    console.log('Imagen agregada al FormData:', imageInput);
-  }
+    const imageFile = this.registerForm.get('image')?.value as File;
+    if (imageFile) {
+      formData.append('ProfileImageFile', imageFile, imageFile.name);
+      console.log('Appending image:', imageFile.name);
+    }
 
     if (this.selectedUserId) {
       // Actualizar usuario existente
