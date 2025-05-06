@@ -13,6 +13,7 @@ export class AppComponent {
   url: string = "https://localhost:7035/";
   // url: string = "https://88.25.64.124/";
   input: any = HTMLInputElement;
+  file: any = null;
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
@@ -57,7 +58,7 @@ export class AppComponent {
   registerForm = new FormGroup({
     name: new FormControl<string>(''),
     surname1: new FormControl<string>(''),
-    surname2: new FormControl<string>(''),
+    surname2: new FormControl<string | null>(null),
     bday: new FormControl<Date | string>(''),
     phoneNumber: new FormControl<string>(''),
     email: new FormControl<string>(''),
@@ -69,10 +70,10 @@ export class AppComponent {
   onFileSelected(event: Event): void {
     this.input = event.target as HTMLInputElement;
     if (this.input.files && this.input.files.length > 0) {
-      const file = this.input.files[0];
-      this.registerForm.patchValue({ image: file });
+      this.file = this.input.files[0];
+      this.registerForm.patchValue({ image: this.file });
       this.registerForm.get('image')?.updateValueAndValidity(); // Asegúrate de que el valor sea válido.
-      console.log('Archivo seleccionado:', file); // Agrega un log para verificar el archivo
+      console.log('Archivo seleccionado:', this.file); // Agrega un log para verificar el archivo
     }
   }
 
@@ -103,7 +104,7 @@ export class AppComponent {
   formData.append('Email', userData.Email || '');
   formData.append('Password', userData.Password || '');
   formData.append('Password2', userData.Password2 || '');
-  formData.append('ProfileImageFile', this.input);
+  formData.append('ProfileImageFile', this.file);
 
   // Agregar la imagen al FormData si existe
   // const imageInput = this.registerForm.value.image as File | null;
