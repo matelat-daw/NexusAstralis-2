@@ -10,8 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
   title = 'NexusAstralis';
-  url: string = "https://localhost:7035/";
-  // url: string = "https://88.25.64.124/";
+  // url: string = "https://localhost:7035/";
+  url: string = "https://88.25.64.124/";
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
