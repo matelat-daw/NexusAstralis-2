@@ -68,12 +68,12 @@ export class AppComponent {
   });
 
   onFileSelected(event: Event): void {
-    this.input = event.target as HTMLInputElement;
-    if (this.input.files && this.input.files.length > 0) {
-      this.file = this.input.files[0];
-      this.registerForm.patchValue({ image: this.file });
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.registerForm.patchValue({ image: file });
       this.registerForm.get('image')?.updateValueAndValidity(); // Asegúrate de que el valor sea válido.
-      console.log('Archivo seleccionado:', this.file); // Agrega un log para verificar el archivo
+      console.log('Archivo seleccionado:', file); // Agrega un log para verificar el archivo
     }
   }
 
@@ -104,14 +104,14 @@ export class AppComponent {
   formData.append('Email', userData.Email || '');
   formData.append('Password', userData.Password || '');
   formData.append('Password2', userData.Password2 || '');
-  formData.append('ProfileImageFile', this.file);
+  // formData.append('ProfileImageFile', this.file);
 
   // Agregar la imagen al FormData si existe
-  // const imageInput = this.registerForm.value.image as File | null;
-  // if (imageInput) {
-  //   formData.append('ProfileImageFile', imageInput);
-  //   console.log('Imagen agregada al FormData:', imageInput);
-  // }
+  const imageInput = this.registerForm.value.image as File | null;
+  if (imageInput) {
+    formData.append('ProfileImageFile', imageInput);
+    console.log('Imagen agregada al FormData:', imageInput);
+  }
 
     if (this.selectedUserId) {
       // Actualizar usuario existente
