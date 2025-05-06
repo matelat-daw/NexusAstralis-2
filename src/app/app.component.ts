@@ -10,10 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
   title = 'NexusAstralis';
-  url: string = "https://localhost:7035/";
-  // url: string = "https://88.25.64.124/";
-  input: any = HTMLInputElement;
-  file: any = null;
+  // url: string = "https://localhost:7035/";
+  url: string = "https://88.25.64.124/";
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
@@ -77,17 +75,6 @@ export class AppComponent {
   }
 
   onRegisterFormSubmit() {
-    // const userData = {
-    //   Name: this.registerForm.value.name,
-    //   Surname1: this.registerForm.value.surname1,
-    //   Surname2: this.registerForm.value.surname2,
-    //   Bday: this.registerForm.value.bday,
-    //   PhoneNumber: this.registerForm.value.phoneNumber,
-    //   Email: this.registerForm.value.email,
-    //   Password: this.registerForm.value.pass,
-    //   Password2: this.registerForm.value.pass2
-    // };
-
     if (this.registerForm.value.pass !== this.registerForm.value.pass2) {
       alert('Las contraseñas no coinciden');
       return;
@@ -114,7 +101,6 @@ export class AppComponent {
     if (this.selectedUserId) {
       // Actualizar usuario existente
       this.http.patch(`${this.url}api/Account/Update/${this.selectedUserId}`, formData, { responseType: 'text' })
-      //this.http.patch(this.url + 'api/Account/Update/' + this.selectedUserId, userData, { responseType: 'text' })
         .subscribe({
           next: (value) => {
             alert('Usuario actualizado con éxito.');
