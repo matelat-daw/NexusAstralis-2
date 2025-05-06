@@ -10,8 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
   title = 'NexusAstralis';
-  // url: string = "https://localhost:7035/";
-  url: string = "https://88.25.64.124/";
+  url: string = "https://localhost:7035/";
+  // url: string = "https://88.25.64.124/";
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
@@ -63,7 +63,7 @@ export class AppComponent {
     email: new FormControl<string>(''),
     pass: new FormControl<string>(''),
     pass2: new FormControl<string>(''),
-    image: new FormControl<string | null>(null)
+    image: new FormControl<File | null>(null)
   });
 
   onRegisterFormSubmit() {
@@ -75,39 +75,53 @@ export class AppComponent {
       PhoneNumber: this.registerForm.value.phoneNumber,
       Email: this.registerForm.value.email,
       Password: this.registerForm.value.pass,
-      Password2: this.registerForm.value.pass2,
-      ProfileImageFile: this.registerForm.value.image
+      Password2: this.registerForm.value.pass2
     };
-    // console.log(userData);
 
-    if (this.registerForm.value.pass !== this.registerForm.value.pass2) {
+    if (userData.Password !== userData.Password2) {
       alert('Las contraseñas no coinciden');
       return;
     }
+    
+    // Crear un objeto FormData para enviar los datos junto con la imagen
+  const formData = new FormData();
+  formData.append('Name', userData.Name || '');
+  formData.append('Surname1', userData.Surname1 || '');
+  formData.append('Surname2', userData.Surname2 || '');
+  formData.append('Bday', userData.Bday ? userData.Bday.toString() : '');
+  formData.append('PhoneNumber', userData.PhoneNumber || '');
+  formData.append('Email', userData.Email || '');
+  formData.append('Password', userData.Password || '');
+  formData.append('Password2', userData.Password2 || '');
+
+  // Agregar la imagen al FormData si existe
+  const imageInput = this.registerForm.value.image as File | null;
+  if (imageInput) {
+    formData.append('ProfileImageFile', imageInput);
+  }
+
     if (this.selectedUserId) {
       // Actualizar usuario existente
-      console.log('Updating user :', userData);
-      this.http.patch(`${this.url}api/Account/Update/${this.selectedUserId}`, userData, { responseType: 'text' })
+      this.http.patch(`${this.url}api/Account/Update/${this.selectedUserId}`, formData, { responseType: 'text' })
       //this.http.patch(this.url + 'api/Account/Update/' + this.selectedUserId, userData, { responseType: 'text' })
         .subscribe({
           next: (value) => {
-            console.log('User updated successfully', value);
             alert('Usuario actualizado con éxito');
             this.contacts$ = this.getContacts(); // Refresca la lista de contactos
             this.registerForm.reset(); // Resetea el formulario
             this.selectedUserId = null; // Limpia el ID seleccionado
           },
           error: (error) => {
-            console.error('Error updating user', error);
             alert('Error al actualizar el usuario');
           }
         });
     } else {
       // Crear nuevo usuario
-      this.http.post(this.url + 'api/Account/Register', userData, { responseType: 'text' })
+      this.http.post(this.url + 'api/Account/Register', formData, { responseType: 'text' })
         .subscribe({
           next: (value) => {
             console.log('User added successfully', value);
+            alert('Usuario agregado con éxito: ' + value);
             this.contacts$ = this.getContacts(); // Refresca la lista de contactos
             this.registerForm.reset(); // Resetea el formulario
           },
