@@ -27,7 +27,6 @@ export class AppComponent {
       Email: this.loginFrom.value.email,
       Password: this.loginFrom.value.pass
     };
-    console.log(loginData);
     this.http.post(this.url + 'api/Account/Login', loginData, { responseType: 'text' })
       .subscribe({
         next: (value) => {
@@ -36,7 +35,7 @@ export class AppComponent {
         },
         error: (error) => {
           console.error('Login error', error);
-          alert('Login error');
+          alert('Login Error: ' + error);
         }
       });
   }
