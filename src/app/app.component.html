@@ -1,4 +1,3 @@
-<h2>Users Table</h2>
 <div class="login-container">
   <h2>Login</h2>
   <form [formGroup]="loginFrom" (ngSubmit)="onLoginFormSubmit()">
@@ -15,31 +14,33 @@
 </div>
 <div class="flex">
   <div class="overflow-auto">
-    <div class="m-5 register-container">
+    <div class="register-container">
+      <h2>Register</h2>
       <form (ngSubmit)="onRegisterFormSubmit()" [formGroup]="registerForm" enctype="multipart/form-data">
-        <label for="name">Nombre:</label><br>
+        <label for="name">Nombre:</label>
         <input class="w-full" type="text" id="name" formControlName="name"><br>
-        <label for="surname1">Apellido 1:</label><br>
+        <label for="surname1">Apellido 1:</label>
         <input class="w-full" type="text" id="surname1" formControlName="surname1"><br>
-        <label for="surname2">Apellido 2:</label><br>
+        <label for="surname2">Apellido 2:</label>
         <input class="w-full" type="text" id="surname2" formControlName="surname2"><br>
-        <label for="phoneNumber">Teléfono:</label><br>
+        <label for="phoneNumber">Teléfono:</label>
         <input class="w-full" type="phone" id="phoneNumber" formControlName="phoneNumber"><br>
-        <label for="email">E-mail:</label><br>
-        <input class="w-full" type="email" id="email" formControlName="email"><br>
-        <label for="pass">Password:</label><br>
-        <input class="w-full" type="password" id="pass" formControlName="pass"><br>
-        <label for="pass2">Password2:</label><br>
+        <label for="reg-email">E-mail:</label>
+        <input class="w-full" type="email" id="reg-email" formControlName="email"><br>
+        <label for="reg-pass">Password:</label>
+        <input class="w-full" type="password" id="reg-pass" formControlName="pass"><br>
+        <label for="pass2">Password2:</label>
         <input class="w-full" type="password" id="pass2" formControlName="pass2"><br>
-        <label for="bday">Nacimiento:</label><br>
+        <label for="bday">Nacimiento:</label>
         <input class="w-full" type="date" id="bday" formControlName="bday"><br>
-        <label for="image">Imagen de Perfil:</label><br>
+        <label for="image">Imagen de Perfil:</label>
         <input class="w-full" type="file" id="image" formControlName="image"><br><br>
         <button class="w-full btn btn-primary mt-3 mb-3" type="submit">Enviar</button>
       </form>
       </div>
     <div *ngIf="contacts$ | async as contacts">
       <div *ngIf="contacts.length > 0; else noContacts">
+        <h2>Users Table</h2>
         <table>
           <tr>
             <th>Nombre</th>
