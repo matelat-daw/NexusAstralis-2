@@ -70,7 +70,8 @@ export class AppComponent {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this.registerForm.patchValue({ image: file });
-      this.registerForm.get('image')?.updateValueAndValidity(); // Asegúrate de que el valor sea válido
+      this.registerForm.get('image')?.updateValueAndValidity(); // Asegúrate de que el valor sea válido.
+      console.log('Archivo seleccionado:', file); // Agrega un log para verificar el archivo
     }
   }
 
@@ -106,6 +107,7 @@ export class AppComponent {
   const imageInput = this.registerForm.value.image as File | null;
   if (imageInput) {
     formData.append('ProfileImageFile', imageInput);
+    console.log('Imagen agregada al FormData:', imageInput);
   }
 
     if (this.selectedUserId) {
@@ -114,13 +116,13 @@ export class AppComponent {
       //this.http.patch(this.url + 'api/Account/Update/' + this.selectedUserId, userData, { responseType: 'text' })
         .subscribe({
           next: (value) => {
-            alert('Usuario actualizado con éxito');
+            alert('Usuario actualizado con éxito.');
             this.contacts$ = this.getContacts(); // Refresca la lista de contactos
             this.registerForm.reset(); // Resetea el formulario
             this.selectedUserId = null; // Limpia el ID seleccionado
           },
           error: (error) => {
-            alert('Error al actualizar el usuario');
+            alert('Error al actualizar el usuario.');
           }
         });
     } else {
