@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'NexusAstralis';
   url: string = "https://localhost:7035/";
   // url: string = "https://88.25.64.124/";
+  input: any = HTMLInputElement;
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
@@ -66,9 +67,9 @@ export class AppComponent {
   });
 
   onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
+    this.input = event.target as HTMLInputElement;
+    if (this.input.files && this.input.files.length > 0) {
+      const file = this.input.files[0];
       this.registerForm.patchValue({ image: file });
       this.registerForm.get('image')?.updateValueAndValidity(); // Asegúrate de que el valor sea válido.
       console.log('Archivo seleccionado:', file); // Agrega un log para verificar el archivo
@@ -102,13 +103,14 @@ export class AppComponent {
   formData.append('Email', userData.Email || '');
   formData.append('Password', userData.Password || '');
   formData.append('Password2', userData.Password2 || '');
+  formData.append('ProfileImageFile', this.input);
 
   // Agregar la imagen al FormData si existe
-  const imageInput = this.registerForm.value.image as File | null;
-  if (imageInput) {
-    formData.append('ProfileImageFile', imageInput);
-    console.log('Imagen agregada al FormData:', imageInput);
-  }
+  // const imageInput = this.registerForm.value.image as File | null;
+  // if (imageInput) {
+  //   formData.append('ProfileImageFile', imageInput);
+  //   console.log('Imagen agregada al FormData:', imageInput);
+  // }
 
     if (this.selectedUserId) {
       // Actualizar usuario existente
