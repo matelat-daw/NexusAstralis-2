@@ -54,6 +54,7 @@ export class AppComponent {
   }
 
   registerForm = new FormGroup({
+    nick: new FormControl<string>(''),
     name: new FormControl<string>(''),
     surname1: new FormControl<string>(''),
     surname2: new FormControl<string | null>(null),
@@ -62,7 +63,9 @@ export class AppComponent {
     email: new FormControl<string>(''),
     pass: new FormControl<string>(''),
     pass2: new FormControl<string>(''),
-    image: new FormControl<File | null>(null)
+    image: new FormControl<File | null>(null),
+    about: new FormControl<string | null>(null),
+    location: new FormControl<string | null>(null)
   });
 
   onFileSelected(event: Event): void {
