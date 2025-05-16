@@ -10,8 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
   title = 'NexusAstralis';
-  // url: string = "https://localhost:7035/";
-  url: string = "https://88.24.26.59/";
+  url: string = "https://localhost:7035/";
+  // url: string = "https://88.24.26.59/";
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
@@ -66,7 +66,7 @@ export class AppComponent {
     image: new FormControl<File | null>(null),
     about: new FormControl<string | null>(null),
     location: new FormControl<string | null>(null),
-    publicProfile: new FormControl<boolean>(false)
+    publicProfile: new FormControl<string>('0')
   });
 
   onFileSelected(event: Event): void {
