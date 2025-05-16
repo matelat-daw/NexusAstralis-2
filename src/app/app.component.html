@@ -36,12 +36,12 @@
         <label for="bday">Nacimiento:</label>
         <input class="w-full" type="date" id="bday" formControlName="bday"><br>
         <label for="image">Imagen de Perfil:</label>
-        <input class="w-full" type="file" id="image" formControlName="image" (change)="onFileSelected($event)"><br><br>
-        <button class="w-full btn btn-primary mt-3 mb-3" type="submit">Enviar</button>
+        <input class="w-full" type="file" id="image" formControlName="image" (change)="onFileSelected($event)"><br>
         <label for="name">Sore Mí:</label>
         <input class="w-full" type="text" id="about" formControlName="about"><br>
         <label for="name">Localización:</label>
-        <input class="w-full" type="text" id="location" formControlName="location"><br>
+        <input class="w-full" type="text" id="location" formControlName="location"><br><br>
+        <button class="w-full btn btn-primary mt-3 mb-3" type="submit">Enviar</button>
       </form>
       </div>
     <div *ngIf="contacts$ | async as contacts">
