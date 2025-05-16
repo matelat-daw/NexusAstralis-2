@@ -197,7 +197,8 @@ onDelete() {
             pass2: '',
             image: null, // Maneja la imagen según sea necesario
             about: user.about,
-            location: user.location
+            location: user.userLocation,
+            publicProfile: user.publicProfile
           });
         },
         error: (error) => {
