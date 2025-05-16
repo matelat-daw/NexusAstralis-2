@@ -86,6 +86,7 @@ export class AppComponent {
     // Crear un objeto FormData para enviar los datos junto con la imagen
   const formData = new FormData();
   // Add all form fields to FormData
+    if (this.registerForm.value.nick) formData.append('Nick', this.registerForm.value.nick);
     if (this.registerForm.value.name) formData.append('Name', this.registerForm.value.name);
     if (this.registerForm.value.surname1) formData.append('Surname1', this.registerForm.value.surname1);
     if (this.registerForm.value.surname2) formData.append('Surname2', this.registerForm.value.surname2 || '');
@@ -100,6 +101,8 @@ export class AppComponent {
       formData.append('ProfileImageFile', imageFile, imageFile.name);
       console.log('Appending image:', imageFile.name);
     }
+    if (this.registerForm.value.about) formData.append('Name', this.registerForm.value.about);
+    if (this.registerForm.value.location) formData.append('Name', this.registerForm.value.location);
 
     if (this.selectedUserId) {
       // Actualizar usuario existente
@@ -181,6 +184,7 @@ onDelete() {
           this.selectedUserId = id; // Guarda el ID del usuario seleccionado
           // Rellena el formulario con los datos del usuario
           this.registerForm.patchValue({
+            nick: user.nick,
             name: user.name,
             surname1: user.surname1,
             surname2: user.surname2,
@@ -189,7 +193,9 @@ onDelete() {
             email: user.email,
             pass: '', // No se debe rellenar la contraseña por seguridad
             pass2: '',
-            image: null // Maneja la imagen según sea necesario
+            image: null, // Maneja la imagen según sea necesario
+            about: user.about,
+            location: user.location
           });
         },
         error: (error) => {
