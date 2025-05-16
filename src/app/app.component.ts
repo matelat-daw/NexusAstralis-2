@@ -130,23 +130,44 @@ export class AppComponent {
     }
   }
 
-  onDelete(id: string) {
-    const confirmDelete = confirm('¿Estás seguro de que deseas eliminar este usuario?');
-    if (confirmDelete) {
-      this.http.delete(`${this.url}api/Account/Delete/${id}`, { responseType: 'text' })
-      .subscribe({
-        next: (value) => {
-          console.log('User deleted successfully', value);
-          alert('User deleted successfully');
-          this.contacts$ = this.getContacts(); // Refresh the contacts list after deletion.
-        },
-        error: (error) => {
-          console.error('Error deleting user', error);
-          alert('Error deleting user');
-        }
-      });
-    }
+  // onDelete(id: string) {
+  //   const confirmDelete = confirm('¿Estás seguro de que deseas eliminar este usuario?');
+  //   if (confirmDelete) {
+  //     this.http.delete(`${this.url}api/Account/Delete/${id}`, { responseType: 'text' })
+  //     .subscribe({
+  //       next: (value) => {
+  //         console.log('User deleted successfully', value);
+  //         alert('User deleted successfully');
+  //         this.contacts$ = this.getContacts(); // Refresh the contacts list after deletion.
+  //       },
+  //       error: (error) => {
+  //         console.error('Error deleting user', error);
+  //         alert('Error deleting user');
+  //       }
+  //     });
+  //   }
+  // }
+
+  // filepath: [app.component.ts](http://_vscodecontentref_/2)
+onDelete() {
+  const confirmDelete = confirm('¿Estás Seguro que Deseas Eliminar tu Cuenta?');
+  if (confirmDelete && this.token) {
+    this.http.delete(`${this.url}api/Account/DeleteSelf`, {
+      headers: { Authorization: `Bearer ${this.token}` },
+      responseType: 'text'
+    }).subscribe({
+      next: (value) => {
+        console.log('User Deleted Successfully', value);
+        alert('Cuenta Eliminada con Éxito');
+        // Aquí puedes limpiar el estado de la app, cerrar sesión, etc.
+      },
+      error: (error) => {
+        console.error('Error Deleting User', error);
+        alert('Error al Eliminar la Cuenta');
+      }
+    });
   }
+}
 
   onUpdate(id: string) {
     // Busca los datos del usuario seleccionado
