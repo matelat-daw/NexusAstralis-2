@@ -208,10 +208,10 @@ onDelete() {
       });
   }
 
-  onRegister()
-  {
-    window.location.href = 'Register.html';
-  }
+  // onRegister()
+  // {
+  //   window.location.href = 'Register.html';
+  // }
 
   private getContacts(): Observable<any> {
     return this.http.get(this.url + 'api/Account/Users');
