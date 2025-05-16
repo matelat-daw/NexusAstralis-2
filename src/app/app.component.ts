@@ -65,7 +65,8 @@ export class AppComponent {
     pass2: new FormControl<string>(''),
     image: new FormControl<File | null>(null),
     about: new FormControl<string | null>(null),
-    location: new FormControl<string | null>(null)
+    location: new FormControl<string | null>(null),
+    publicProfile: new FormControl<boolean>(false)
   });
 
   onFileSelected(event: Event): void {
@@ -101,8 +102,9 @@ export class AppComponent {
       formData.append('ProfileImageFile', imageFile, imageFile.name);
       console.log('Appending image:', imageFile.name);
     }
-    if (this.registerForm.value.about) formData.append('Name', this.registerForm.value.about);
-    if (this.registerForm.value.location) formData.append('Name', this.registerForm.value.location);
+    if (this.registerForm.value.about) formData.append('About', this.registerForm.value.about);
+    if (this.registerForm.value.location) formData.append('UserLocation', this.registerForm.value.location);
+    if (this.registerForm.value.publicProfile) formData.append('PublicProfile', this.registerForm.value.publicProfile ? '1' : '0');
 
     if (this.selectedUserId) {
       // Actualizar usuario existente
