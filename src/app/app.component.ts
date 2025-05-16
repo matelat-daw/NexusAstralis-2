@@ -31,6 +31,7 @@ export class AppComponent {
       .subscribe({
         next: (value) => {
           console.log('Login successful, Token: ', value);
+          this.token = value;
           alert('Login successful');
         },
         error: (error) => {
@@ -44,6 +45,7 @@ export class AppComponent {
       .subscribe({
         next: (value) => {
           console.log('Logout successful', value);
+          this.token = null;
           alert('Logout successful');
         },
         error: (error) => {
@@ -112,7 +114,7 @@ export class AppComponent {
         .subscribe({
           next: (value) => {
             alert('Usuario actualizado con éxito.');
-            this.contacts$ = this.getContacts(); // Refresca la lista de contactos
+            this.contacts$ = this.getContacts(); // Refresca la lista de contactos.
             this.registerForm.reset(); // Resetea el formulario
             this.selectedUserId = null; // Limpia el ID seleccionado
           },
@@ -138,35 +140,18 @@ export class AppComponent {
     }
   }
 
-  // onDelete(id: string) {
-  //   const confirmDelete = confirm('¿Estás seguro de que deseas eliminar este usuario?');
-  //   if (confirmDelete) {
-  //     this.http.delete(`${this.url}api/Account/Delete/${id}`, { responseType: 'text' })
-  //     .subscribe({
-  //       next: (value) => {
-  //         console.log('User deleted successfully', value);
-  //         alert('User deleted successfully');
-  //         this.contacts$ = this.getContacts(); // Refresh the contacts list after deletion.
-  //       },
-  //       error: (error) => {
-  //         console.error('Error deleting user', error);
-  //         alert('Error deleting user');
-  //       }
-  //     });
-  //   }
-  // }
-
-  // filepath: [app.component.ts](http://_vscodecontentref_/2)
 onDelete() {
   const confirmDelete = confirm('¿Estás Seguro que Deseas Eliminar tu Cuenta?');
   if (confirmDelete && this.token) {
-    this.http.delete(`${this.url}api/Account/DeleteSelf`, {
+    this.http.delete(`${this.url}api/Account/Delete`, {
       headers: { Authorization: `Bearer ${this.token}` },
       responseType: 'text'
     }).subscribe({
       next: (value) => {
         console.log('User Deleted Successfully', value);
         alert('Cuenta Eliminada con Éxito');
+        this.token = null;
+        this.contacts$ = this.getContacts(); // Refresca la lista de contactos.
         // Aquí puedes limpiar el estado de la app, cerrar sesión, etc.
       },
       error: (error) => {
@@ -207,11 +192,6 @@ onDelete() {
         }
       });
   }
-
-  // onRegister()
-  // {
-  //   window.location.href = 'Register.html';
-  // }
 
   private getContacts(): Observable<any> {
     return this.http.get(this.url + 'api/Account/Users');
