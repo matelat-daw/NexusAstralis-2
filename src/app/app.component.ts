@@ -194,6 +194,12 @@ onDelete() {
   }
 
   private getContacts(): Observable<any> {
-    return this.http.get(this.url + 'api/Account/Users');
+    if (this.token) {
+      return this.http.get(this.url + 'api/Account/Users', {
+        headers: { Authorization: `Bearer ${this.token}` }
+      });
+    } else {
+      return this.http.get(this.url + 'api/Account/Users');
+    }
   }
 }
