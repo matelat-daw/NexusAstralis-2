@@ -119,7 +119,9 @@ export class AppComponent {
             this.registerForm.reset(); // Resetea el formulario
           },
           error: (error) => {
-            alert('Error al actualizar el usuario.');
+            console.error('Error updating user', error);
+           console,log("El usuario no se ha podido actualizar", this.nick);
+            alert('Error al actualizar el usuario.' + error);
           }
         });
     } else {
