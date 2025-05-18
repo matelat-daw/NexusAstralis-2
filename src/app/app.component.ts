@@ -164,7 +164,7 @@ onDelete() {
 
   onUpdate(nick: string) {
     // Busca los datos del usuario seleccionado
-    this.http.get<any>(`${this.url}api/Account/GetUser/${nick}`,
+    this.http.get<any>(`${this.url}api/Account/GetUserInfo/${nick}`,
         {
             headers: { Authorization: `Bearer ${this.token}` }
         }
