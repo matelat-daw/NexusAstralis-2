@@ -10,8 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
   title = 'NexusAstralis';
-  url: string = "https://localhost:7035/";
-  // url: string = "https://88.25.64.124/";
+  // url: string = "https://localhost:7035/";
+  url: string = "https://88.25.64.124/";
   http = inject(HttpClient);
   contacts$ = this.getContacts();
   selectedUserId: string | null = null;
@@ -31,6 +31,7 @@ export class AppComponent {
       .subscribe({
         next: (value) => {
           console.log('Login successful, Token: ', value);
+          this.token = value;
           alert('Login successful');
         },
         error: (error) => {
@@ -44,6 +45,7 @@ export class AppComponent {
       .subscribe({
         next: (value) => {
           console.log('Logout successful', value);
+          this.token = null;
           alert('Logout successful');
         },
         error: (error) => {
@@ -54,6 +56,7 @@ export class AppComponent {
   }
 
   registerForm = new FormGroup({
+    nick: new FormControl<string>(''),
     name: new FormControl<string>(''),
     surname1: new FormControl<string>(''),
     surname2: new FormControl<string | null>(null),
@@ -62,7 +65,10 @@ export class AppComponent {
     email: new FormControl<string>(''),
     pass: new FormControl<string>(''),
     pass2: new FormControl<string>(''),
-    image: new FormControl<File | null>(null)
+    image: new FormControl<File | null>(null),
+    about: new FormControl<string | null>(null),
+    location: new FormControl<string | null>(null),
+    publicProfile: new FormControl<string>('0')
   });
 
   onFileSelected(event: Event): void {
@@ -83,6 +89,7 @@ export class AppComponent {
     // Crear un objeto FormData para enviar los datos junto con la imagen
   const formData = new FormData();
   // Add all form fields to FormData
+    if (this.registerForm.value.nick) formData.append('Nick', this.registerForm.value.nick);
     if (this.registerForm.value.name) formData.append('Name', this.registerForm.value.name);
     if (this.registerForm.value.surname1) formData.append('Surname1', this.registerForm.value.surname1);
     if (this.registerForm.value.surname2) formData.append('Surname2', this.registerForm.value.surname2 || '');
@@ -97,6 +104,9 @@ export class AppComponent {
       formData.append('ProfileImageFile', imageFile, imageFile.name);
       console.log('Appending image:', imageFile.name);
     }
+    if (this.registerForm.value.about) formData.append('About', this.registerForm.value.about);
+    if (this.registerForm.value.location) formData.append('UserLocation', this.registerForm.value.location);
+    if (this.registerForm.value.publicProfile) formData.append('PublicProfile', this.registerForm.value.publicProfile ? '1' : '0');
 
     if (this.selectedUserId) {
       // Actualizar usuario existente
@@ -104,7 +114,7 @@ export class AppComponent {
         .subscribe({
           next: (value) => {
             alert('Usuario actualizado con éxito.');
-            this.contacts$ = this.getContacts(); // Refresca la lista de contactos
+            this.contacts$ = this.getContacts(); // Refresca la lista de contactos.
             this.registerForm.reset(); // Resetea el formulario
             this.selectedUserId = null; // Limpia el ID seleccionado
           },
@@ -130,23 +140,27 @@ export class AppComponent {
     }
   }
 
-  onDelete(id: string) {
-    const confirmDelete = confirm('¿Estás seguro de que deseas eliminar este usuario?');
-    if (confirmDelete) {
-      this.http.delete(`${this.url}api/Account/Delete/${id}`, { responseType: 'text' })
-      .subscribe({
-        next: (value) => {
-          console.log('User deleted successfully', value);
-          alert('User deleted successfully');
-          this.contacts$ = this.getContacts(); // Refresh the contacts list after deletion.
-        },
-        error: (error) => {
-          console.error('Error deleting user', error);
-          alert('Error deleting user');
-        }
-      });
-    }
+onDelete() {
+  const confirmDelete = confirm('¿Estás Seguro que Deseas Eliminar tu Cuenta?');
+  if (confirmDelete && this.token) {
+    this.http.delete(`${this.url}api/Account/Delete`, {
+      headers: { Authorization: `Bearer ${this.token}` },
+      responseType: 'text'
+    }).subscribe({
+      next: (value) => {
+        console.log('User Deleted Successfully', value);
+        alert('Cuenta Eliminada con Éxito');
+        this.token = null;
+        this.contacts$ = this.getContacts(); // Refresca la lista de contactos.
+        // Aquí puedes limpiar el estado de la app, cerrar sesión, etc.
+      },
+      error: (error) => {
+        console.error('Error Deleting User', error);
+        alert('Error al Eliminar la Cuenta');
+      }
+    });
   }
+}
 
   onUpdate(id: string) {
     // Busca los datos del usuario seleccionado
@@ -157,6 +171,7 @@ export class AppComponent {
           this.selectedUserId = id; // Guarda el ID del usuario seleccionado
           // Rellena el formulario con los datos del usuario
           this.registerForm.patchValue({
+            nick: user.nick,
             name: user.name,
             surname1: user.surname1,
             surname2: user.surname2,
@@ -165,7 +180,10 @@ export class AppComponent {
             email: user.email,
             pass: '', // No se debe rellenar la contraseña por seguridad
             pass2: '',
-            image: null // Maneja la imagen según sea necesario
+            image: null, // Maneja la imagen según sea necesario
+            about: user.about,
+            location: user.userLocation,
+            publicProfile: user.publicProfile
           });
         },
         error: (error) => {
@@ -173,11 +191,6 @@ export class AppComponent {
           alert('Error al cargar los datos del usuario');
         }
       });
-  }
-
-  onRegister()
-  {
-    window.location.href = 'Register.html';
   }
 
   private getContacts(): Observable<any> {

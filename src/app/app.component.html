@@ -17,6 +17,8 @@
     <div class="register-container">
       <h2>Register</h2>
       <form (ngSubmit)="onRegisterFormSubmit()" [formGroup]="registerForm" enctype="multipart/form-data">
+        <label for="name">Nick:</label>
+        <input class="w-full" type="text" id="nick" formControlName="nick"><br>
         <label for="name">Nombre:</label>
         <input class="w-full" type="text" id="name" formControlName="name"><br>
         <label for="surname1">Apellido 1:</label>
@@ -34,7 +36,13 @@
         <label for="bday">Nacimiento:</label>
         <input class="w-full" type="date" id="bday" formControlName="bday"><br>
         <label for="image">Imagen de Perfil:</label>
-        <input class="w-full" type="file" id="image" formControlName="image" (change)="onFileSelected($event)"><br><br>
+        <input class="w-full" type="file" id="image" formControlName="image" (change)="onFileSelected($event)"><br>
+        <label for="about">Sobre Mí:</label>
+        <input class="w-full" type="text" id="about" formControlName="about"><br>
+        <label for="location">Localización:</label>
+        <input class="w-full" type="text" id="location" formControlName="location"><br>
+        <label for="publicProfile">Perfil Público?:</label>
+        <input class="w-full" type="checkbox" id="publicProfile" formControlName="publicProfile"><br><br>
         <button class="w-full btn btn-primary mt-3 mb-3" type="submit">Enviar</button>
       </form>
       </div>
@@ -59,8 +67,8 @@
             <td><a href="mailto:{{user.email}}"><i class="bi bi-envelope-at"></i>&nbsp;&nbsp;{{user.email}}</a></td>
             <td><a href="{{'tel:' + user.phoneNumber}}"><i class="bi bi-telephone-inbound"></i>&nbsp;&nbsp;{{user.phoneNumber}}</a></td>
             <td>{{user.bday}}</td>
-            <td><a href="https://88.25.64.124{{user.profileImage}}" target="_blank"><img src="{{'https://88.25.64.124' + user.profileImage}}" alt="User Image" class="img-fluid" style="width: 50px; height: 50px;"></a></td>
-            <td><button class="btn btn-secondary" (click)="onUpdate(user.id)">Update</button><button class="btn btn-danger" (click)="onDelete(user.id)">Delete</button></td>
+            <td><a href="https://88.24.26.59{{user.profileImage}}" target="_blank"><img src="{{'https://88.24.26.59' + user.profileImage}}" alt="User Image" class="img-fluid" style="width: 50px; height: 50px;"></a></td>
+            <td><button class="btn btn-secondary" (click)="onUpdate(user.id)">Update</button><button class="btn btn-danger" (click)="onDelete()">Delete</button></td>
           </tr>
         </table>
       </div>
