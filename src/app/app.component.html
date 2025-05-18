@@ -68,7 +68,7 @@
             <td><a href="{{'tel:' + user.phoneNumber}}"><i class="bi bi-telephone-inbound"></i>&nbsp;&nbsp;{{user.phoneNumber}}</a></td>
             <td>{{user.bday}}</td>
             <td><a href="https://88.24.26.59{{user.profileImage}}" target="_blank"><img src="{{'https://88.24.26.59' + user.profileImage}}" alt="User Image" class="img-fluid" style="width: 50px; height: 50px;"></a></td>
-            <td><button class="btn btn-secondary" (click)="onUpdate(user.id)">Update</button><button class="btn btn-danger" (click)="onDelete()">Delete</button></td>
+            <td><button class="btn btn-secondary" (click)="onUpdate(user.nick)">Update</button><button class="btn btn-danger" (click)="onDelete()">Delete</button></td>
           </tr>
         </table>
       </div>

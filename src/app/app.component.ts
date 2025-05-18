@@ -162,13 +162,17 @@ onDelete() {
   }
 }
 
-  onUpdate(id: string) {
+  onUpdate(nick: string) {
     // Busca los datos del usuario seleccionado
-    this.http.get<any>(`${this.url}api/Account/GetUser/${id}`)
+    this.http.get<any>(`${this.url}api/Account/GetUser/${nick}`,
+        {
+            headers: { Authorization: `Bearer ${this.token}` }
+        }
+    )
       .subscribe({
         next: (user) => {
           console.log('User data loaded for update', user);
-          this.selectedUserId = id; // Guarda el ID del usuario seleccionado
+          this.selectedUserId = nick; // Guarda el ID del usuario seleccionado
           // Rellena el formulario con los datos del usuario
           this.registerForm.patchValue({
             nick: user.nick,
