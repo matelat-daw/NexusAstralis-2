@@ -14,7 +14,8 @@ export class AppComponent {
   url: string = "https://88.24.26.59/";
   http = inject(HttpClient);
   contacts$ = this.getContacts();
-  selectedUserId: string | null = null;
+//   selectedUserId: string | null = null;
+  nick: string | null = null;
   token: string | null = null;
 
   loginFrom = new FormGroup({
@@ -108,15 +109,14 @@ export class AppComponent {
     if (this.registerForm.value.location) formData.append('UserLocation', this.registerForm.value.location);
     if (this.registerForm.value.publicProfile) formData.append('PublicProfile', this.registerForm.value.publicProfile ? '1' : '0');
 
-    if (this.selectedUserId) {
+    if (this.nick) {
       // Actualizar usuario existente
-      this.http.patch(`${this.url}api/Account/Update/${this.selectedUserId}`, formData, { responseType: 'text' })
+      this.http.patch(`${this.url}api/Account/Update/${this.nick}`, formData, { responseType: 'text' })
         .subscribe({
           next: (value) => {
             alert('Usuario actualizado con éxito.');
             this.contacts$ = this.getContacts(); // Refresca la lista de contactos.
             this.registerForm.reset(); // Resetea el formulario
-            this.selectedUserId = null; // Limpia el ID seleccionado
           },
           error: (error) => {
             alert('Error al actualizar el usuario.');
@@ -172,7 +172,7 @@ onDelete() {
       .subscribe({
         next: (user) => {
           console.log('User data loaded for update', user);
-          this.selectedUserId = nick; // Guarda el ID del usuario seleccionado
+          this.nick = nick; // Guarda el ID del usuario seleccionado
           // Rellena el formulario con los datos del usuario
           this.registerForm.patchValue({
             nick: user.nick,
