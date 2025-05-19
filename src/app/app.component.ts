@@ -111,7 +111,10 @@ export class AppComponent {
 
     if (this.nick) {
       // Actualizar usuario existente
-      this.http.patch(`${this.url}api/Account/Update/${this.nick}`, formData, { responseType: 'text' })
+      this.http.patch(`${this.url}api/Account/Update/${this.nick}`, formData,
+        {
+          headers: { Authorization: `Bearer ${this.token}` }, responseType: 'text'
+        })
         .subscribe({
           next: (value) => {
             alert('Usuario actualizado con éxito.');
