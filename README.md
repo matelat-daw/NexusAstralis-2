@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 # NexusAstralisFront
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.11.
+=======
+# Local
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
 
 ## Development server
 

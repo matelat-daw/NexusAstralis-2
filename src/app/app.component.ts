@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+<<<<<<< HEAD
 
 declare var particlesJS: any;
+=======
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
 
 @Component({
   selector: 'app-root',
@@ -9,6 +12,7 @@ declare var particlesJS: any;
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
+<<<<<<< HEAD
 export class AppComponent implements OnInit {
   title = 'nexus-astralis-front';
   
@@ -129,3 +133,12 @@ export class AppComponent implements OnInit {
     });
   }
 }
+=======
+export class AppComponent implements OnInit  {
+  title = 'local';
+
+  ngOnInit() {
+    window.location.href = 'http://localhost:4200';
+  }
+}
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a

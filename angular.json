@@ -3,7 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+<<<<<<< HEAD
     "nexus-astralis-front": {
+=======
+    "local": {
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+<<<<<<< HEAD
             "outputPath": "dist/nexus-astralis-front",
+=======
+            "outputPath": "dist/local",
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -41,8 +49,13 @@
               "budgets": [
                 {
                   "type": "initial",
+<<<<<<< HEAD
                   "maximumWarning": "4MB",
                   "maximumError": "6MB"
+=======
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
                 },
                 {
                   "type": "anyComponentStyle",
@@ -64,10 +77,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
+<<<<<<< HEAD
               "buildTarget": "nexus-astralis-front:build:production"
             },
             "development": {
               "buildTarget": "nexus-astralis-front:build:development"
+=======
+              "buildTarget": "local:build:production"
+            },
+            "development": {
+              "buildTarget": "local:build:development"
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
             }
           },
           "defaultConfiguration": "development"
@@ -99,6 +119,10 @@
     }
   },
   "cli": {
+<<<<<<< HEAD
     "analytics": "9d3c9eed-620e-48cb-91ae-28db25a19993"
+=======
+    "analytics": "3a4eb631-571a-4b37-aa83-ba89626ce3ce"
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
   }
 }

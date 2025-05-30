@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+<<<<<<< HEAD
 import { LayoutComponent } from './layout/layout.component';
 import { HomeComponent } from './features/home/home.component';
 import { EventsComponent } from './features/events/events.component';
@@ -44,3 +45,7 @@ export const routes: Routes = [
     { path: 'starmap', component: StarmapComponent },
     { path: '**', redirectTo: '' },
 ];
+=======
+
+export const routes: Routes = [];
+>>>>>>> e7d2bd6c15dcee048b5229f3acdbf962bd52952a
