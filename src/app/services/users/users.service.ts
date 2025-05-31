@@ -6,14 +6,17 @@ import { User } from '../../models/user';
 })
 export class UsersService {
 
-  private readonly API_URL = 'https://88.24.26.59/api/Account'
+  private readonly API_URL = 'https://88.24.26.59/api/';
+  private readonly Comment = 'Comment';
+  private readonly Favorite = 'Account/Favorite/';
 
   token = signal<string | null>(sessionStorage.getItem('auth_token'));
 
   constructor() { }
 
   async getAll(): Promise<User[]> {
-    const data = await fetch(`${this.API_URL}/GetUsers`, {
+    const endPoint = "Account/GetUsers";
+    const data = await fetch(`${this.API_URL}${endPoint}`, {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${this.token()}` }
     });
@@ -22,7 +25,8 @@ export class UsersService {
   }
 
   async getInfoByNick(nick: string): Promise<User> {
-    const data = await fetch(`${this.API_URL}/GetUserInfo/${nick}`, {
+    const endPoint = "Account/GetUserInfo/";
+    const data = await fetch(`${this.API_URL}${endPoint}${nick}`, {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${this.token()}` }
     });
@@ -31,13 +35,10 @@ export class UsersService {
   }
 
   async getMyProfile(): Promise<User> {
-    // const authTokenObj = JSON.parse(sessionStorage.getItem('auth_token') || '{}');
-    // const token = authTokenObj.token;
-    // console.log("El Token es: ", token);
-    const data = await fetch(`${this.API_URL}/Profile`, {
+    const endPoint = "Account/Profile";
+    const data = await fetch(`${this.API_URL}${endPoint}`, {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${this.token()}` }
-      // headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!data.ok) throw new Error(`Error fetching user profile: ${data.status}`);
     return data.json();
@@ -52,8 +53,7 @@ export class UsersService {
         comment: comment,
         constellationId: constellationId,
       };
-      
-      const data = await fetch('https://88.24.26.59/api/Comments', {
+      const data = await fetch(`${this.API_URL}${this.Comment}`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${this.token()}`,
@@ -72,7 +72,7 @@ export class UsersService {
 
   async deleteComment(id: number): Promise<boolean> {
     try{
-      const data = await fetch(`https://88.24.26.59/api/Comments/${id}`, {
+      const data = await fetch(`${this.API_URL}${this.Comment}/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${this.token()}` }
       });
@@ -90,7 +90,7 @@ export class UsersService {
   }
 
   async addFavorite(id: number): Promise<boolean> {
-    const data = await fetch(`${this.API_URL}/Favorites/${id}`, {
+    const data = await fetch(`${this.API_URL}${this.Favorite}${id}`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${this.token()}` }
     });
@@ -100,7 +100,7 @@ export class UsersService {
   }
 
   async deleteFavorite(id: number): Promise<boolean> {
-    const data = await fetch(`${this.API_URL}/Favorites/${id}`, {
+    const data = await fetch(`${this.API_URL}${this.Favorite}${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${this.token()}` }
     });
@@ -110,7 +110,7 @@ export class UsersService {
   }
 
   async isMyFavorite(id: number): Promise<boolean> {
-    const data = await fetch(`${this.API_URL}/Favorites/${id}`, {
+    const data = await fetch(`${this.API_URL}${this.Favorite}${id}`, {
       method: 'GET',
       headers: { 'Authorization': `Bearer ${this.token()}` }
     });
@@ -136,7 +136,8 @@ export class UsersService {
     formData.append('PublicProfile', profile.publicProfile === true ? "1" : "0");
     
     try {
-      const response = await fetch(`${this.API_URL}/Update`, {
+      const endPoint = "Account/Update";
+      const response = await fetch(`${this.API_URL}${endPoint}`, {
         method: 'PATCH',
         headers: { 
           'Authorization': `Bearer ${this.token()}`
@@ -156,7 +157,8 @@ export class UsersService {
   }
 
   async deleteMyAccount(): Promise<void> {
-    const response = await fetch(`${this.API_URL}/Delete`, {
+    const endPoint = "Account/Delete";
+    const response = await fetch(`${this.API_URL}${endPoint}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${this.token()}` }
     });

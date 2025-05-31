@@ -5,7 +5,7 @@ import { User } from '../../models/user';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   constructor(private authGoogle: SocialAuthService) {}
-  private API_URL = 'https://88.24.26.59/api/Auth';
+  private API_URL = 'https://88.24.26.59/api/';
   private passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{8,}$/;
   private emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -55,7 +55,7 @@ export class AuthService {
     if (!password2 || password !== password2) errors.push('password2: Las contraseñas no coinciden.');
     if (errors.length > 0) this.handleErrors(errors);
     return await this.fetchAndHandle(
-      `${this.API_URL}/Register`,
+      `${this.API_URL}Auth/Register`,
       { method: 'POST', body: formData },
       { 'Nick': 'nick: El nombre de usuario ya está registrado.', 'E-mail': 'email: El email ya está registrado.' }
     );
@@ -68,7 +68,7 @@ export class AuthService {
     if (!password) errors.push('password: La contraseña es obligatoria.');
     if (errors.length > 0) this.handleErrors(errors);
     const responseText = await this.fetchAndHandle(
-      `${this.API_URL}/Login`,
+      `${this.API_URL}Auth/Login`,
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) }
     );
     if (/Confirmado|confirmado/.test(responseText)) this.handleErrors(['global: Email no verificado. Por favor revisa tu correo.']);
@@ -79,7 +79,7 @@ export class AuthService {
 
   async googleLogin(token: string): Promise<void> {
     const responseText = await this.fetchAndHandle(
-      `${this.API_URL}/GoogleLogin`,
+      `${this.API_URL}Auth/GoogleLogin`,
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }) }
     );
     sessionStorage.setItem('auth_token', responseText);
@@ -89,7 +89,7 @@ export class AuthService {
 
   async logout(): Promise<void> {
     await this.fetchAndHandle(
-      'https://88.24.26.59/api/Account/Logout',
+      `${this.API_URL}Account/Logout`,
       { method: 'POST', headers: { 'Authorization': `Bearer ${this.token()}` } }
     );
     const loginMethod = sessionStorage.getItem('login_method');
