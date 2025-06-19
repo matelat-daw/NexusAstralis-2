@@ -58,8 +58,10 @@ export class RegisterComponent {
       const formData = new FormData();
       Object.entries(this.form.value).forEach(([key, value]) => {
         if (value != null) {
-            if (key === 'image' && value instanceof File) {
-            formData.append('ProfileImageFile', value, value.name); // Usa el nombre que espera el backend
+            if (key === 'publicProfile') {
+                formData.append('PublicProfile', '1');
+            } else if (key === 'image' && value instanceof File) {
+            formData.append('ProfileImageFile', value, value.name);
             } else {
             formData.append(key.charAt(0).toUpperCase() + key.slice(1), value as any);
             }
