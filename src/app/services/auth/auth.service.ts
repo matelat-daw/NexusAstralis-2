@@ -38,8 +38,6 @@ export class AuthService {
     const nick = (formData.get('Nick')?.toString() || '').trim();
     const name = formData.get('Name')?.toString().trim();
     const surname1 = formData.get('Surname1')?.toString().trim();
-    const surname2 = formData.get('Surname2')?.toString().trim();
-    const phoneNumber = formData.get('PhoneNumber')?.toString().trim();
     const email = formData.get('Email')?.toString().trim();
     const password = formData.get('Password')?.toString().trim();
     const password2 = formData.get('Password2')?.toString().trim();
@@ -57,15 +55,11 @@ export class AuthService {
     if (!password2 || password !== password2) errors.push('password2: Las contraseñas no coinciden.');
     if (errors.length > 0) this.handleErrors(errors);
 
-    const imageFile = formData.get('image')?.valueOf as unknown as File;
+    const imageFile = formData.get('image') as File;
     if (imageFile) {
-      formData.append('ProfileImageFile', imageFile, imageFile.name);
-      console.log('Appending image:', imageFile.name);
+        formData.delete('image');
+        formData.append('ProfileImageFile', imageFile, imageFile.name);
     }
-    const bday = formData.get('Bday')?.toString().trim();
-    const about = formData.get('About')?.toString().trim();
-    const userLocation = formData.get('UserLocation')?.toString().trim();
-    const publicProfile = formData.get('PublicProfile')?.toString().trim() || '0';
 
     return await this.fetchAndHandle(
       `${this.API_URL}/Register`,
