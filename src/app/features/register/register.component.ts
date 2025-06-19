@@ -24,13 +24,15 @@ export class RegisterComponent {
     nick: new FormControl(''),
     name: new FormControl(''),
     surname1: new FormControl(''),
+    surname2: new FormControl(''),
+    phoneNumber: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
     password2: new FormControl(''),
     bday: new FormControl<Date | string>(''),
     image: new FormControl<File | null>(null),
     about: new FormControl<string | null>(null),
-    location: new FormControl<string | null>(null),
+    userLocation: new FormControl<string | null>(null),
     publicProfile: new FormControl<string>('0')
   });
 
