@@ -41,6 +41,7 @@ export class RegisterComponent {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this.form.patchValue({ image: file });
+      this.form.get('image')?.updateValueAndValidity();
     }
   }
 
@@ -64,6 +65,7 @@ export class RegisterComponent {
             }
         }
         });
+        console.log([...formData.entries()]);
       await this.authService.register(formData);      
       this.router.navigate(['/login'], { replaceUrl: true });
       this.snackBar.open('Cuenta registrada exitosamente. Revisa tu correo para verificar tu cuenta.', 'Cerrar', {
