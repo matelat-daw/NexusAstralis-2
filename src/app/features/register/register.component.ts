@@ -56,8 +56,14 @@ export class RegisterComponent {
     try {
       const formData = new FormData();
       Object.entries(this.form.value).forEach(([key, value]) => {
-        if (value != null) formData.append(key.charAt(0).toUpperCase() + key.slice(1), value as any);
-      });
+        if (value != null) {
+            if (key === 'image' && value instanceof File) {
+            formData.append('ProfileImageFile', value, value.name); // Usa el nombre que espera el backend
+            } else {
+            formData.append(key.charAt(0).toUpperCase() + key.slice(1), value as any);
+            }
+        }
+        });
       await this.authService.register(formData);      
       this.router.navigate(['/login'], { replaceUrl: true });
       this.snackBar.open('Cuenta registrada exitosamente. Revisa tu correo para verificar tu cuenta.', 'Cerrar', {

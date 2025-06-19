@@ -55,12 +55,6 @@ export class AuthService {
     if (!password2 || password !== password2) errors.push('password2: Las contraseñas no coinciden.');
     if (errors.length > 0) this.handleErrors(errors);
 
-    const imageFile = formData.get('image') as File;
-    if (imageFile) {
-        formData.delete('image');
-        formData.append('ProfileImageFile', imageFile, imageFile.name);
-    }
-
     return await this.fetchAndHandle(
       `${this.API_URL}/Register`,
       { method: 'POST', body: formData },
