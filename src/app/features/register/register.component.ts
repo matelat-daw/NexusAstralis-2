@@ -24,10 +24,26 @@ export class RegisterComponent {
     nick: new FormControl(''),
     name: new FormControl(''),
     surname1: new FormControl(''),
+    surname2: new FormControl(''),
+    phoneNumber: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
     password2: new FormControl(''),
+    bday: new FormControl<Date | string>(''),
+    image: new FormControl<File | null>(null),
+    about: new FormControl<string | null>(null),
+    userLocation: new FormControl<string | null>(null),
+    publicProfile: new FormControl<string>('0')
   });
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.form.patchValue({ image: file });
+      this.form.get('image')?.updateValueAndValidity();
+    }
+  }
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
@@ -41,8 +57,15 @@ export class RegisterComponent {
     try {
       const formData = new FormData();
       Object.entries(this.form.value).forEach(([key, value]) => {
-        if (value != null) formData.append(key.charAt(0).toUpperCase() + key.slice(1), value as any);
-      });
+        if (value != null) {
+            if (key === 'image' && value instanceof File) {
+            formData.append('ProfileImageFile', value, value.name); // Usa el nombre que espera el backend
+            } else {
+            formData.append(key.charAt(0).toUpperCase() + key.slice(1), value as any);
+            }
+        }
+        });
+        console.log([...formData.entries()]);
       await this.authService.register(formData);      
       this.router.navigate(['/login'], { replaceUrl: true });
       this.snackBar.open('Cuenta registrada exitosamente. Revisa tu correo para verificar tu cuenta.', 'Cerrar', {
