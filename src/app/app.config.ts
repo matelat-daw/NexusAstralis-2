@@ -9,11 +9,6 @@ import { environment } from './services/environments/environments';
 // npm install @abacritt/angularx-social-login
 
 export const appConfig: ApplicationConfig = {
-  // providers: [
-  //   provideZoneChangeDetection({ eventCoalescing: true }), 
-  //   provideRouter(routes), 
-  //   provideHttpClient(withFetch())],
-
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), 
