@@ -30,8 +30,11 @@
                 <span class="errorMessage errorMessageGlobal">{{msg}}</span>
             }
             <button type="submit">Entrar</button>
-            <button>Acceder con Google</button>
-            <button>Acceder con Microsoft</button>
+            <div class="login-container">
+                <h2>Iniciar Sesión</h2>
+                <asl-google-signin-button type="standard" size="large"></asl-google-signin-button>
+              </div>
+            <!-- <button>Acceder con Microsoft</button> -->
         </form>
         <div class="redirect">
             <span>¿No tienes cuenta?</span><a routerLink="/register" class="link">Crear una</a>
